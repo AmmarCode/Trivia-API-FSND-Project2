@@ -209,7 +209,7 @@ Errors are returned as JSON objects in the following format
 }
 
 ```
-#### GET//categories/<int:category_id>/questions
+#### GET/categories/<int:category_id>/questions
 - General:
     - Fetches current category's id
     - Fetches a list of questions of the current category.
@@ -296,9 +296,9 @@ Errors are returned as JSON objects in the following format
 ```
 
 #### POST/quizzes
--General:
+- General:
     - Fetches a random question to play quiz.
--Example: curl http://127.0.0.1:5000/quizzes -POST -H "Content-Type: application/json" -d '{"quiz_category":{"id":0}, "previous_questions":[1, 2]}'
+- Example: curl http://127.0.0.1:5000/quizzes -POST -H "Content-Type: application/json" -d '{"quiz_category":{"id":0}, "previous_questions":[1, 2]}'
 ```
 {
   "question": {
