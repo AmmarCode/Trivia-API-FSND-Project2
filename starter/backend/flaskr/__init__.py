@@ -171,25 +171,22 @@ def create_app(test_config=None):
     '''
     @app.route('/questions/search', methods=['POST'])
     def search_question():
-        body = request.get_json()
+        try:
+            body = request.get_json()
 
-        if body is None:
+            search = body.get('search')
+
+            questions = Question.query.filter(
+                Question.question.ilike(f"%{search}%")).all()
+
+            searched_questions = paginate_questions(request, questions)
+            return jsonify({
+                'success': True,
+                'questions': searched_questions,
+                'total_questions': len(questions)
+            })
+        except:
             abort(400)
-
-        search = body.get('search')
-
-        questions = Question.query.filter(
-            Question.question.ilike(f"%{search}%")).all()
-
-        if len(questions) == 0:
-            abort(404)
-
-        searched_questions = paginate_questions(request, questions)
-        return jsonify({
-            'success': True,
-            'questions': searched_questions,
-            'total_questions': len(questions)
-        })
 
     '''
     @TODO:

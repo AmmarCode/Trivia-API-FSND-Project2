@@ -15,7 +15,7 @@ class TriviaTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "trivia_test"
-        self.database_path = "postgres://{}/{}".format('localhost:5432', self.database_name)
+        self.database_path = "postgres://{}/{}".format(localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
         self.new_question = {
@@ -70,20 +70,20 @@ class TriviaTestCase(unittest.TestCase):
 
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/18')
+        res = self.client().delete('/questions/15')
         data = json.loads(res.data)
 
-        question = Question.query.filter(Question.id == 18).one_or_none()
+        question = Question.query.filter(Question.id == 15).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['deleted'], 18)
+        self.assertEqual(data['deleted'], 15)
         self.assertTrue(len(data['questions']))
         self.assertEqual(question, None)
 
 
     def test_delete_error_404_if_question_does_not_exist(self):
-        res = self.client().delete('/questions/152')
+        res = self.client().delete('/questions/1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -98,7 +98,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created'])
-        self.assertTrue(len(data['questions']))
+        self.assertTrue(data['total_questions'])
 
 
     def test_405_create_question_not_allowed(self):
@@ -111,21 +111,22 @@ class TriviaTestCase(unittest.TestCase):
 
 
     def test_search_question_with_results(self):
-        res = self.client().post('/questions', json={'search': "What boxer's original name is Cassius Clay?"})
+        res = self.client().post('/questions/search', json={'search': "Cassius"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['total_questions'])
-        self.assertEqual(len(data['questions']), 1)
+        self.assertEqual(len(data['questions']),1)
 
 
     def test_search_question_without_results(self):
-        res = self.client().post('/questions', json={'search': "lalalala"})
+        res = self.client().post('/questions/search', json={'search': "lalalala"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
+        self.assertEqual(data['total_questions'], 0)
         self.assertEqual(len(data['questions']), 0)
 
 
