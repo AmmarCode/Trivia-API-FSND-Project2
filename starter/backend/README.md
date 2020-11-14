@@ -99,7 +99,7 @@ Errors are returned as JSON objects in the following format
 #### GET/categories
 - General:
     - Fetches categories
-- Example: curl http://127.0.0.1:5000/categories
+- Example: ```curl http://127.0.0.1:5000/categories```
 ```
 {
   "categories": {
@@ -120,7 +120,7 @@ Errors are returned as JSON objects in the following format
     - Fetches a list of questions
     - Fetches the total number of questions.
     - Questions are paginated 10 questions/ page.
-- Example: curl http://127.0.0.1:5000/questions
+- Example: ```curl http://127.0.0.1:5000/questions```
 ```
 {
   "categories": {
@@ -209,11 +209,11 @@ Errors are returned as JSON objects in the following format
 }
 
 ```
-#### GET//categories/<int:category_id>/questions
+#### GET/categories/<int:category_id>/questions
 - General:
     - Fetches current category's id
     - Fetches a list of questions of the current category.
-- Example: curl http://127.0.0.1:5000/categories/4/questions
+- Example: ```curl http://127.0.0.1:5000/categories/4/questions```
 ```
 {
   "current_category": 4, 
@@ -256,7 +256,7 @@ Errors are returned as JSON objects in the following format
 #### POST/questions
 -General:
     - Adds a new question to the database
-- Example: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "What is the biggest continent?", "answer": "Asia", "difficulty": "1", "category": "3"}'
+- Example: ```curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "What is the biggest continent?", "answer": "Asia", "difficulty": "1", "category": "3"}'```
 
 ```
 {
@@ -277,7 +277,7 @@ Errors are returned as JSON objects in the following format
 #### POST/questions/search
 - General:
     - Allows to search for a question using any word from the question
-- Example: curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"search":"continent"}'
+- Example: ```curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"search":"continent"}'```
 ```
 {
   "questions": [
@@ -296,9 +296,9 @@ Errors are returned as JSON objects in the following format
 ```
 
 #### POST/quizzes
--General:
+- General:
     - Fetches a random question to play quiz.
--Example: curl http://127.0.0.1:5000/quizzes -POST -H "Content-Type: application/json" -d '{"quiz_category":{"id":0}, "previous_questions":[1, 2]}'
+- Example: ```curl http://127.0.0.1:5000/quizzes -POST -H "Content-Type: application/json" -d '{"quiz_category":{"id":0}, "previous_questions":[1, 2]}'```
 ```
 {
   "question": {
