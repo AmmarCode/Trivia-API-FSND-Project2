@@ -131,7 +131,7 @@ def create_app(test_config=None):
     category, and difficulty score.
 
     TEST: When you submit a question on the "Add" tab,
-    the form will clear and the question 
+    the form will clear and the question
     will appear at the end of the last page
     of the questions list in the "List" tab.
     '''
@@ -230,34 +230,24 @@ def create_app(test_config=None):
     '''
     @app.route('/quizzes', methods=['POST'])
     def get_random_quiz_questions():
-        body = request.get_json()
-        previous_questions = body.get('previous_questions', [])
-        quiz_category = body.get('quiz_category', None)
-
         try:
-            if quiz_category:
-                if quiz_category['id'] == 0:
-                    quiz = Question.query.all()
-                else:
-                    quiz = Question.query.filter_by(
-                        category=quiz_category['id']).all()
+            body = request.get_json()
+            category = body.get('quiz_category')
+            previous_questions = body.get('previous_questions')
 
-            selected = []
-            for question in quiz:
-                if question.id not in previous_questions:
-                    selected.append(question.format())
+            if category['type'] == 'click':
+                quiz_question = Question.query.filter(
+                    Question.id.notin_((previous_questions))
+                ).all()
+            else:
+                quiz_question = Question.query.filter_by(
+                    category=category['id']
+                ).filter(Question.id.notin_((previous_questions))).all()
 
-                if len(selected) != 0:
-                    result = random.choice(selected)
-                    return jsonify({
-                        "success": True,
-                        "question": result,
-                    })
-                else:
-                    return jsonify({
-                        "success": False,
-                        "question": False
-                    })
+            return jsonify({
+                'success': True,
+                'question': random.choice(quiz_question).format() if quiz_question else None,
+            })
         except:
             abort(422)
     '''
